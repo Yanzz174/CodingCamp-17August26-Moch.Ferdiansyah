@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Expense &amp; Budget Visualizer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div class="tape-edge tape-edge--top" aria-hidden="true"></div>
+
+  <div class="app">
+
+    <header class="app-header">
+      <div class="brand">
+        <span class="brand-mark">§</span>
+        <div class="brand-text">
+          <h1>Ledger &amp; Line</h1>
+          <p>Expense &amp; Budget Visualizer</p>
+        </div>
+      </div>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false">
+        <span class="theme-toggle-dot" aria-hidden="true"></span>
+        <span class="theme-toggle-label">Night ledger</span>
+      </button>
+    </header>
+
+    <section class="balance-row">
+      <div class="stamp-card">
+        <span class="stamp-eyebrow">Total tracked</span>
+        <span id="balance-amount" class="stamp-amount">$0.00</span>
+        <span class="stamp-ring" aria-hidden="true"></span>
+      </div>
+
+      <div class="limit-card">
+        <label for="limit-input">Spending limit</label>
+        <div class="limit-input-row">
+          <span class="limit-currency">$</span>
+          <input type="number" id="limit-input" min="0" step="0.01" placeholder="No limit set" />
+        </div>
+        <p id="limit-status" class="limit-status">Set a limit to get an over-budget warning.</p>
+      </div>
+    </section>
+
+    <main class="app-grid">
+
+      <section class="panel panel--form" aria-labelledby="form-title">
+        <h2 id="form-title" class="panel-title">Add transaction</h2>
+        <form id="transaction-form" novalidate>
+          <div class="field">
+            <label for="item-name">Item name</label>
+            <input type="text" id="item-name" name="item-name" placeholder="e.g. Iced coffee" autocomplete="off" />
+            <span class="field-error" id="item-name-error"></span>
+          </div>
+
+          <div class="field">
+            <label for="item-amount">Amount</label>
+            <div class="amount-wrap">
+              <span class="amount-currency">$</span>
+              <input type="number" id="item-amount" name="item-amount" min="0" step="0.01" placeholder="0.00" />
+            </div>
+            <span class="field-error" id="item-amount-error"></span>
+          </div>
+
+          <div class="field">
+            <label for="item-category">Category</label>
+            <select id="item-category" name="item-category">
+              <option value="" disabled selected>Choose a category</option>
+              <option value="Food">Food</option>
+              <option value="Transport">Transport</option>
+              <option value="Fun">Fun</option>
+            </select>
+            <span class="field-error" id="item-category-error"></span>
+          </div>
+
+          <button type="submit" class="btn-primary">Add transaction</button>
+        </form>
+      </section>
+
+      <section class="panel panel--list" aria-labelledby="list-title">
+        <div class="panel-list-header">
+          <h2 id="list-title" class="panel-title">Transactions</h2>
+          <div class="sort-control">
+            <label for="sort-select">Sort by</label>
+            <select id="sort-select">
+              <option value="date-desc">Newest first</option>
+              <option value="amount-desc">Amount: high to low</option>
+              <option value="amount-asc">Amount: low to high</option>
+              <option value="category">Category</option>
+            </select>
+          </div>
+        </div>
+
+        <ul id="transaction-list" class="transaction-list">
+          <!-- transaction rows injected here -->
+        </ul>
+        <p id="empty-state" class="empty-state">No transactions yet — add your first one to start the tape.</p>
+      </section>
+
+      <section class="panel panel--chart" aria-labelledby="chart-title">
+        <h2 id="chart-title" class="panel-title">Spending by category</h2>
+        <div class="chart-wrap">
+          <canvas id="category-chart" role="img" aria-label="Pie chart of spending by category"></canvas>
+          <p id="chart-empty" class="empty-state">Your chart will appear once you add a transaction.</p>
+        </div>
+        <ul id="chart-legend" class="chart-legend"></ul>
+      </section>
+
+    </main>
+
+    <footer class="app-footer">
+      <p>Data stays on this device only — stored in your browser's local storage.</p>
+    </footer>
+  </div>
+
+  <div class="tape-edge tape-edge--bottom" aria-hidden="true"></div>
+
+  <script src="vendor/chart.umd.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
